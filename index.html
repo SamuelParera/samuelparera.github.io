@@ -72,6 +72,11 @@
   nav{display:flex;align-items:center;gap:26px}
   nav a{font-size:14px;color:var(--muted);transition:color .2s}
   nav a:hover{color:var(--ink)}
+  .icon{width:19px;height:19px;display:block;flex:none}
+  .nav-icons{display:flex;align-items:center;gap:4px}
+  .icon-btn{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;color:var(--muted);border:1px solid transparent;transition:all .2s}
+  .icon-btn:hover{color:var(--ink);border-color:var(--line);background:var(--panel)}
+  .foot-links .icon{width:15px;height:15px}
   .status{
     display:inline-flex;align-items:center;gap:8px;
     font-family:"Space Mono",monospace;font-size:12px;color:var(--ink);
@@ -210,20 +215,37 @@
   .modal-body{padding:26px 34px 34px}
   .modal-body .desc{color:#D9D3E6;font-size:16px;margin-bottom:26px;overflow-wrap:break-word;word-break:break-word}
   .block-label{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
-  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
-  .gallery img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;border:1px solid var(--line);display:block}
-  .gallery img.solo{grid-column:span 2}
-  .videos{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
-  .video-embed{position:relative;display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:pointer;aspect-ratio:16/9}
-  .video-embed img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
-  .video-embed:hover img{transform:scale(1.04)}
-  .video-embed .play-btn{
+
+  /* ---- media carousel (images + youtube, mixed) ---- */
+  .carousel{position:relative;margin-bottom:28px}
+  .car-window{position:relative;overflow:hidden;border-radius:12px;border:1px solid var(--line)}
+  .car-track{display:flex;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+  .slide{min-width:100%;aspect-ratio:16/9;position:relative;background:#0a0713;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .slide .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(26px) brightness(.45);transform:scale(1.15)}
+  .slide .fg{position:relative;width:100%;height:100%;object-fit:contain}
+  .slide.video img{width:100%;height:100%;object-fit:cover;display:block}
+  .slide.is-placeholder img{width:100%;height:100%;object-fit:cover;display:block}
+  .slide iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .slide .play-btn{
     position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;
     background:var(--grad);display:flex;align-items:center;justify-content:center;
     color:#12091f;font-size:22px;box-shadow:0 8px 30px rgba(157,107,255,0.5);
+    cursor:pointer;border:none;
   }
-  .video-embed .vlabel{position:absolute;left:14px;bottom:12px;background:rgba(6,4,14,0.7);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600}
-  .video-embed iframe{width:100%;height:100%;border:0;display:block;aspect-ratio:16/9}
+  .slide.video{cursor:pointer}
+  .slide .vlabel{position:absolute;left:14px;bottom:12px;background:rgba(6,4,14,0.72);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600;pointer-events:none}
+  .car-btn{
+    position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;
+    background:rgba(6,4,14,0.66);border:1px solid var(--line);color:var(--ink);font-size:22px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;transition:all .2s;
+  }
+  .car-btn:hover{background:var(--violet-deep);border-color:var(--violet)}
+  .car-btn.prev{left:12px}
+  .car-btn.next{right:12px}
+  .car-btn:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+  .car-dots{display:flex;justify-content:center;gap:8px;margin-top:14px}
+  .car-dots button{width:9px;height:9px;border-radius:50%;border:none;background:var(--line);cursor:pointer;padding:0;transition:all .2s}
+  .car-dots button.active{background:var(--violet);width:24px;border-radius:5px}
   .modal-links{display:flex;flex-wrap:wrap;gap:12px}
   .modal-links .btn{font-size:14px;padding:12px 20px}
   .empty-note{color:var(--muted);font-size:14px;font-style:italic}
@@ -259,8 +281,11 @@
   .award p{color:#C7C0D8;font-size:14px}
 
   /* ---------- about ---------- */
-  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:40px;align-items:start}
+  .about-grid{display:grid;grid-template-columns:0.85fr 1.4fr 1fr;gap:40px;align-items:start}
   .about-grid p{color:#D9D3E6;font-size:17px;margin-bottom:18px}
+  .about-photo{width:100%;aspect-ratio:4/5;border-radius:var(--r);overflow:hidden;border:1px solid var(--line);position:relative;background:var(--panel-2)}
+  .about-photo::after{content:"";position:absolute;inset:0;box-shadow:inset 0 -60px 80px -30px rgba(12,9,23,0.7);pointer-events:none}
+  .about-photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
   .facts{border:1px solid var(--line);border-radius:var(--r);padding:28px;background:var(--panel)}
   .facts .row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14.5px}
   .facts .row:last-child{border:none}
@@ -275,27 +300,30 @@
   footer{border-top:1px solid var(--line);padding:34px 0;color:var(--muted);font-size:13.5px}
   .foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
   .foot .brand{font-size:14px}
+  .foot-links{display:flex;gap:20px}
+  .foot-links a{color:var(--muted);transition:color .2s;display:inline-flex;align-items:center;gap:7px}
+  .foot-links a:hover{color:var(--violet)}
 
   /* ---------- responsive ---------- */
-  @(max-width:900px){
+  @media(max-width:900px){
     .card,.card.feat{grid-column:span 6}
     .stats{grid-template-columns:repeat(2,1fr)}
     .about-grid{grid-template-columns:1fr}
+    .about-photo{max-width:300px}
     .awards{grid-template-columns:1fr}
   }
-  @(max-width:640px){
-    nav a:not(.status){display:none}
+  @media(max-width:640px){
+    nav > a:not(.status){display:none}
     .card,.card.feat{grid-column:span 12}
     .job{grid-template-columns:1fr;gap:10px}
     .two-col{grid-template-columns:1fr}
     .status{display:none}
     .hero{padding:56px 0 40px}
-    .gallery{grid-template-columns:1fr}
-    .gallery img.solo{grid-column:span 1}
+    .car-btn{width:36px;height:36px;font-size:19px}
     .modal-head,.modal-body{padding-left:22px;padding-right:22px}
     .overlay{padding:16px}
   }
-  @ (prefers-reduced-motion: reduce){
+  @media (prefers-reduced-motion: reduce){
     *{animation:none!important;transition:none!important}
     .headline .reel span{transform:none}
     .lede,.cta-row,.stats{opacity:1}
@@ -312,6 +340,20 @@
       <a href="#work">Work</a>
       <a href="#experience">Experience</a>
       <a href="#about">About</a>
+      <div class="nav-icons">
+        <a class="icon-btn" href="mailto:samy2parera@gmail.com" aria-label="Email">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        </a>
+        <a class="icon-btn" href="https://www.linkedin.com/in/samuel-parera-140244aa/" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23H8V8z"/></svg>
+        </a>
+        <a class="icon-btn" href="https://docs.google.com/document/d/1-jYjl4wkxaaGHiRSWDPlHflRekwfAoCp7x9GACY_dAM/preview" target="_blank" rel="noopener" aria-label="Résumé">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+        </a>
+        <a class="icon-btn" href="tel:+917760230737" aria-label="Phone">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg>
+        </a>
+      </div>
       <a class="status" href="#contact"><span class="blink"></span> Open to opportunities</a>
     </nav>
   </div>
@@ -492,6 +534,10 @@
       </div>
     </div>
     <div class="about-grid reveal">
+      <div class="about-photo">
+        <!-- Replace the src below with your photo, e.g. src="images/samuel.jpg" -->
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='500'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239D6BFF'/%3E%3Cstop offset='1' stop-color='%23FF5D8F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='500' fill='%231C1638'/%3E%3Crect width='400' height='500' fill='url(%23g)' opacity='0.22'/%3E%3Ccircle cx='200' cy='190' r='68' fill='%23F5F1E8' opacity='0.85'/%3E%3Cpath d='M108 418 Q200 300 292 418 Z' fill='%23F5F1E8' opacity='0.85'/%3E%3Ctext x='200' y='470' fill='%23928BB0' font-family='monospace' font-size='15' text-anchor='middle'%3Eadd your photo%3C/text%3E%3C/svg%3E" alt="Samuel Parera" />
+      </div>
       <div>
         <p>Game design has been my passion since I was first introduced to game creation in the 5th grade. I initially took a different path, then seized my first chance to enter the industry — and I've thrived in it ever since.</p>
         <p>My strengths span game design, UX and prototyping. I bring a creative mindset, analytical thinking, and hands-on experience across mobile, AR/VR and web. Off the clock you'll find me playing badminton, cooking, making arts &amp; crafts, or lost in music.</p>
@@ -512,8 +558,18 @@
     <h2 class="reveal grad-text">Let's talk</h2>
     <p class="lede reveal">Open to game &amp; UX design roles. The fastest way to reach me is email.</p>
     <div class="contact-links reveal">
-      <a class="btn btn-primary" href="mailto:samy2parera@gmail.com">samy2parera@gmail.com</a>
-      <a class="btn btn-ghost" href="tel:+917760230737">+91 77602 30737</a>
+      <a class="btn btn-primary" href="mailto:samy2parera@gmail.com">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        samy2parera@gmail.com</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/samuel-parera-140244aa/" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23H8V8z"/></svg>
+        LinkedIn</a>
+      <a class="btn btn-ghost" href="https://docs.google.com/document/d/1-jYjl4wkxaaGHiRSWDPlHflRekwfAoCp7x9GACY_dAM/preview" target="_blank" rel="noopener">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg>
+        Résumé</a>
+      <a class="btn btn-ghost" href="tel:+917760230737">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L7.6 9.8a16 16 0 0 0 6 6l1.4-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg>
+        +91 77602 30737</a>
     </div>
   </section>
 
@@ -522,6 +578,11 @@
 <footer>
   <div class="wrap foot">
     <div class="brand"><span class="dot"></span> Samuel Parera</div>
+    <div class="foot-links">
+      <a href="mailto:samy2parera@gmail.com"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg> Email</a>
+      <a href="https://www.linkedin.com/in/samuel-parera-140244aa/" target="_blank" rel="noopener"><svg class="icon" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zM8 8h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-6.6c0-1.57-.03-3.6-2.2-3.6-2.2 0-2.53 1.72-2.53 3.49V23H8V8z"/></svg> LinkedIn</a>
+      <a href="https://docs.google.com/document/d/1-jYjl4wkxaaGHiRSWDPlHflRekwfAoCp7x9GACY_dAM/preview" target="_blank" rel="noopener"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6"/></svg> Résumé</a>
+    </div>
     <div>Game Designer · Bangalore · © 2026</div>
   </div>
 </footer>
@@ -536,87 +597,93 @@
      PROJECT DATA — this is the only part you edit to add media.
 
      For each project:
-       description : the full write-up shown in the overlay
-       images      : list of image paths, e.g. ["images/oz-1.png","images/oz-2.png"]
-                     leave [] and a branded placeholder is shown automatically
-       videos      : list of YouTube videos, e.g.
-                     [{ label:"Gameplay trailer", id:"dQw4w9WgXcQ" }]
-                     the "id" is the code after  watch?v=  in a YouTube URL.
-                     the thumbnail + click-to-play are generated for you.
-       links       : external buttons, e.g. [{ label:"Play game", url:"https://..." }]
-                     leave url:"" and the button is hidden.
+       description : the full write-up shown in the overlay.
+
+       media : ONE ordered carousel list mixing images and videos.
+               Order matters — slides appear in the order you list them.
+               An image slide:  { type:"image", src:"images/duck-1.png" }
+               A video slide:   { type:"video", id:"dQw4w9WgXcQ", label:"Gameplay" }
+                                 ("id" is the code after  watch?v=  in a YouTube URL;
+                                  the thumbnail + click-to-play are made for you.)
+               Mix freely, e.g.
+                 media:[
+                   { type:"image", src:"images/oz-1.png" },
+                   { type:"video", id:"abc123", label:"Trailer" },
+                   { type:"image", src:"images/oz-2.png" }
+                 ]
+
+               EMPTY GAME → two choices:
+                 media:[]    -> shows a branded placeholder slide (default)
+                 media:null  -> hides the carousel entirely for that game
+
+       links : external buttons, e.g. [{ label:"Play game", url:"https://..." }]
+               leave url:"" and the button is hidden.
      ========================================================= */
   const projects = [
     {
       title:"Wizard of Oz Slots", type:"Slots", studio:"Zynga", ip:true,
       blurb:"Designed multiple slot machines and unique mechanics for the official Wizard of Oz IP.",
       description:"Designed multiple slot machines and unique game mechanics for Zynga's official Wizard of Oz IP. Work spanned reel math and feature design through documentation and live implementation, always focused on monetization, retention, and keeping the fantasy of the IP alive across every spin.",
-      images:[],
-      videos:[ /* { label:"Gameplay", id:"YOUR_YOUTUBE_ID" } */ ],
+      media:[
+        // { type:"image", src:"images/oz-1.png" },
+        // { type:"video", id:"YOUR_YOUTUBE_ID", label:"Gameplay" },
+      ],
       links:[ { label:"Play game", url:"" } ]
     },
     {
       title:"Willy Wonka Vegas Casino Slots", type:"Slots", studio:"Zynga", ip:true,
       blurb:"Contributed features focused on monetization, engagement and player retention.",
       description:"Contributed multiple features across this Vegas-style casino title, each targeting monetization, engagement and player retention. Involved end-to-end from ideation and market research through to implementation alongside cross-functional teams.",
-      images:[],
-      videos:[],
+      media:[],
       links:[ { label:"Play game", url:"" } ]
     },
     {
       title:"Room Flip™: Design Dream Home", type:"Casual", studio:"Nukebox Studio", ip:false,
       blurb:"Level content and features for a match-3 game with a builder / home-decor meta.",
       description:"Designed level content and features for a match-3 puzzle game wrapped in a builder and home-decor meta layer. Also built and optimized LiveOps event content that measurably improved player retention.",
-      images:[],
-      videos:[],
+      media:[],
       links:[ { label:"Play game", url:"" } ]
     },
     {
       title:"Duck on the Run", type:"Educational", studio:"Juego Studio", ip:false,
       blurb:"Gamified math learning for kids in a fun, engaging format.",
-      description:"Gamified math learning for kids, turning practice drills into a fun, fast-paced format that keeps young players engaged while they learn.",
-      images:[],
-      videos:[],
+      description:"Duck on the Run turns maths practice into play — to keep their duck running, kids have to solve the problem in front of them, so they're learning actively with no clock pressure. Across 25 levels and 6 mini-games they build shape sense, number recognition, sequencing, problem-solving and the mechanics of core operations, progressing at their own pace. Parents stay in the loop too: set goals, reward achievements, and track progress with clear charts.",
+      media:[],
       links:[]
     },
     {
       title:"Aircraft Deicing Training", type:"VR", studio:"Juego Studio", ip:false,
       blurb:"Immersive VR training for aircraft ground staff on deicing procedures.",
       description:"Created an immersive VR training experience teaching aircraft ground staff correct deicing procedures, translating a real-world, safety-critical process into a repeatable, hands-on simulation.",
-      images:[],
-      videos:[],
+      media:[],
       links:[]
     },
     {
       title:"Strongwatch", type:"VR", studio:"Juego Studio", ip:false,
       blurb:"VR simulation of a defense surveillance system for operator training.",
       description:"Simulated an American defense surveillance system in VR to train operators. Designed the interaction model and training loop so operators could learn the system safely before touching live equipment.",
-      images:[],
-      videos:[],
+      media:[],
       links:[ { label:"More info", url:"" } ]
     },
     {
       title:"AR Pro Pong", type:"AR", studio:"Juego Studio", ip:false,
       blurb:"An AR beer-pong game built on mobile surface tracking.",
       description:"Designed an AR beer-pong game using mobile-based surface tracking, mapping a physical party game onto real tabletops through the phone camera.",
-      images:[],
-      videos:[],
+      media:[],
       links:[ { label:"Watch", url:"" } ]
     },
     {
       title:"Kalutai Card Game", type:"Card", studio:"Personal / Studio", ip:false,
       blurb:"Mobile take on the classic Donkey card game with online multiplayer.",
       description:"A mobile version of the classic 'Donkey' card game, featuring online multiplayer and smart AI bots so players always have an opponent.",
-      images:[],
-      videos:[],
+      media:[],
       links:[]
     },
     {
       title:"Story of Ancients", type:"RTS", studio:"Juego Studio", ip:false,
       blurb:"Multiplayer 4X RTS with base-building, alliances and territory wars.",
       description:"A multiplayer 4X real-time strategy game built around base-building, alliances and territory wars — designing the systems and economy that keep long-form strategy sessions balanced and tense.",
-      images:[],
-      videos:[],
+      media:[],
       links:[]
     }
   ];
@@ -642,6 +709,7 @@
   const modal = document.getElementById("modal");
   const types = ["All", ...Array.from(new Set(projects.map(p=>p.type)))];
   let lastFocused = null;
+  let activeCarousel = null;
 
   function renderChips(active){
     filtersEl.innerHTML = types.map(t=>
@@ -656,7 +724,7 @@
       const show = (filter==="All"||filter===p.type);
       const feat = featured.has(p.title) ? " feat" : "";
       const ip = p.ip ? `<span class="ip-badge">OFFICIAL IP</span>` : "";
-      const mediaCount = (p.images.length + p.videos.length);
+      const mediaCount = Array.isArray(p.media) ? p.media.length : 0;
       const count = mediaCount ? `<span class="count">${mediaCount} media</span>` : "";
       return `<article class="card${feat}${show?'':' hide'}" role="button" tabindex="0"
                 data-index="${i}" aria-label="Open details for ${p.title}">
@@ -677,28 +745,109 @@
     });
   }
 
+  /* thumbnail markup for a YouTube slide (used on load + after a video is closed) */
+  function ytThumb(id,label){
+    return `<img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="${label||'Gameplay'} video thumbnail" loading="lazy" />
+      <button class="play-btn" tabindex="-1" aria-hidden="true">▶</button>
+      ${label?`<span class="vlabel">${label}</span>`:''}`;
+  }
+
+  /* build the mixed image + video carousel for one project */
+  function buildMedia(p){
+    if(p.media === null) return "";                    // media:null -> no carousel at all
+    const items = (Array.isArray(p.media) && p.media.length)
+      ? p.media
+      : [{ type:"image", src:placeholder(p.title), placeholder:true }];   // empty -> placeholder slide
+
+    const slides = items.map((m,idx)=>{
+      if(m.type==="video"){
+        return `<div class="slide video" data-id="${m.id}" data-label="${m.label||''}"
+                  role="button" tabindex="0" aria-label="Play ${m.label||'video'}">${ytThumb(m.id,m.label)}</div>`;
+      }
+      if(m.placeholder){
+        return `<div class="slide is-placeholder"><img src="${m.src}" alt="${p.title} preview" /></div>`;
+      }
+      return `<div class="slide image">
+                <img class="bg" src="${m.src}" alt="" aria-hidden="true" />
+                <img class="fg" src="${m.src}" alt="${p.title} screenshot ${idx+1}" loading="lazy" /></div>`;
+    }).join("");
+
+    const multi = items.length>1;
+    const arrows = multi
+      ? `<button class="car-btn prev" aria-label="Previous slide">‹</button>
+         <button class="car-btn next" aria-label="Next slide">›</button>` : "";
+    const dots = multi
+      ? `<div class="car-dots">${items.map((_,i)=>`<button aria-label="Go to slide ${i+1}"></button>`).join("")}</div>` : "";
+
+    return `<p class="block-label">Media</p>
+      <div class="carousel">
+        <div class="car-window"><div class="car-track">${slides}</div>${arrows}</div>
+        ${dots}
+      </div>`;
+  }
+
+  /* wire up the carousel that was just injected into the modal */
+  function initCarousel(){
+    const car = modal.querySelector(".carousel");
+    if(!car) return null;
+    const track = car.querySelector(".car-track");
+    const slides = Array.from(car.querySelectorAll(".slide"));
+    const dots = Array.from(car.querySelectorAll(".car-dots button"));
+    let i = 0;
+
+    // using onclick (not addEventListener) so re-wiring after a reset never stacks handlers
+    function wirePlay(slide){
+      if(!slide.classList.contains("video")) return;
+      const play = ()=>{
+        slide.classList.add("playing");
+        slide.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${slide.dataset.id}?autoplay=1"
+          title="${slide.dataset.label||'Gameplay'} video" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+      };
+      slide.onclick = play;
+      slide.onkeydown = e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); play(); } };
+    }
+    slides.forEach(wirePlay);
+
+    function stopVideos(){                               // stop playback when navigating away
+      car.querySelectorAll(".slide.video.playing").forEach(s=>{
+        s.classList.remove("playing");
+        s.innerHTML = ytThumb(s.dataset.id, s.dataset.label);
+        wirePlay(s);
+      });
+    }
+    function go(n){
+      i = (n + slides.length) % slides.length;
+      stopVideos();
+      track.style.transform = `translateX(${-i*100}%)`;
+      dots.forEach((d,di)=>d.classList.toggle("active", di===i));
+    }
+
+    const prevBtn = car.querySelector(".car-btn.prev");
+    const nextBtn = car.querySelector(".car-btn.next");
+    if(prevBtn) prevBtn.onclick = ()=>go(i-1);
+    if(nextBtn) nextBtn.onclick = ()=>go(i+1);
+    dots.forEach((d,di)=>d.onclick = ()=>go(di));
+
+    // touch swipe
+    let sx=null;
+    const win = car.querySelector(".car-window");
+    win.addEventListener("touchstart", e=>{ sx=e.touches[0].clientX; }, {passive:true});
+    win.addEventListener("touchend", e=>{
+      if(sx===null) return;
+      const dx = e.changedTouches[0].clientX - sx;
+      if(Math.abs(dx)>40) go(dx<0 ? i+1 : i-1);
+      sx=null;
+    });
+
+    go(0);
+    return { prev:()=>go(i-1), next:()=>go(i+1) };
+  }
+
   function openModal(index, trigger){
     const p = projects[index];
     lastFocused = trigger || document.activeElement;
 
-    const imgs = p.images.length ? p.images : [placeholder(p.title)];
-    const solo = imgs.length===1 ? " solo" : "";
-    const galleryHTML = `
-      <p class="block-label">Screens</p>
-      <div class="gallery">
-        ${imgs.map(src=>`<img class="${solo}" src="${src}" alt="${p.title} screenshot" loading="lazy" />`).join("")}
-      </div>`;
-
-    const videosHTML = p.videos.length ? `
-      <p class="block-label">Video</p>
-      <div class="videos">
-        ${p.videos.map(v=>`
-          <div class="video-embed" data-id="${v.id}" role="button" tabindex="0" aria-label="Play ${v.label}">
-            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.label} thumbnail" loading="lazy" />
-            <span class="play-btn">▶</span>
-            <span class="vlabel">${v.label}</span>
-          </div>`).join("")}
-      </div>` : "";
+    const mediaHTML = buildMedia(p);
 
     const activeLinks = (p.links||[]).filter(l=>l.url);
     const linksHTML = activeLinks.length ? `
@@ -715,21 +864,11 @@
       </div>
       <div class="modal-body">
         <p class="desc">${p.description}</p>
-        ${galleryHTML}
-        ${videosHTML}
+        ${mediaHTML}
         ${linksHTML}
       </div>`;
 
-    // click-to-play videos (loads the iframe only on interaction)
-    modal.querySelectorAll(".video-embed").forEach(el=>{
-      const play = ()=>{
-        el.outerHTML = `<div class="video-embed"><iframe
-          src="https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1"
-          title="Gameplay video" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
-      };
-      el.addEventListener("click", play);
-      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();play();} });
-    });
+    activeCarousel = initCarousel();
 
     overlay.classList.add("open");
     document.body.classList.add("locked");
@@ -741,12 +880,18 @@
     overlay.classList.remove("open");
     document.body.classList.remove("locked");
     modal.innerHTML = "";
+    activeCarousel = null;
     if(lastFocused) lastFocused.focus();
   }
 
   // close on backdrop click + Escape
   overlay.addEventListener("click", e=>{ if(e.target===overlay) closeModal(); });
-  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeModal(); });
+  document.addEventListener("keydown", e=>{
+    if(!overlay.classList.contains("open")) return;
+    if(e.key==="Escape") closeModal();
+    if(activeCarousel && e.key==="ArrowLeft") activeCarousel.prev();
+    if(activeCarousel && e.key==="ArrowRight") activeCarousel.next();
+  });
 
   renderChips("All");
   renderGrid("All");
