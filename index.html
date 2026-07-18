@@ -37,7 +37,7 @@
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
   }
-  /* ambient glow field */
+  body.locked{overflow:hidden}
   body::before{
     content:"";position:fixed;inset:0;z-index:-2;
     background:
@@ -45,7 +45,6 @@
       radial-gradient(620px 520px at 92% 8%, rgba(255,93,143,0.16), transparent 60%),
       radial-gradient(700px 600px at 60% 100%, rgba(107,63,224,0.15), transparent 60%);
   }
-  /* fine grain */
   body::after{
     content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:0.5;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
@@ -80,7 +79,6 @@
   }
   .status .blink{width:8px;height:8px;border-radius:50%;background:#41E08B;box-shadow:0 0 10px #41E08B;animation:blink 2s infinite}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
-  .menu-btn{display:none;background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:8px 12px;font-size:18px;cursor:pointer}
 
   /* ---------- hero ---------- */
   .hero{padding:88px 0 70px;position:relative}
@@ -107,13 +105,13 @@
   .btn{
     display:inline-flex;align-items:center;gap:9px;font-weight:600;font-size:15px;
     padding:14px 24px;border-radius:12px;cursor:pointer;transition:transform .18s ease, box-shadow .18s ease;
+    border:none;font-family:inherit;
   }
   .btn-primary{background:var(--grad);color:#12091f;box-shadow:0 8px 30px rgba(157,107,255,0.35)}
   .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(157,107,255,0.5)}
   .btn-ghost{border:1px solid var(--line);color:var(--ink);background:var(--panel)}
   .btn-ghost:hover{transform:translateY(-3px);border-color:var(--violet)}
 
-  /* stats */
   .stats{
     display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:64px;
     opacity:0;animation:fade .8s ease .8s forwards;
@@ -122,7 +120,6 @@
   .stat .num{font-family:"Unbounded";font-weight:700;font-size:clamp(26px,3.4vw,38px);line-height:1}
   .stat .lbl{font-family:"Space Mono",monospace;font-size:11.5px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-top:10px}
 
-  /* genre marquee */
   .marquee{margin-top:70px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0;position:relative}
   .marquee-track{display:flex;gap:44px;white-space:nowrap;width:max-content;animation:scroll 24s linear infinite}
   .marquee-track span{font-family:"Unbounded";font-weight:600;font-size:16px;color:var(--muted);display:inline-flex;align-items:center;gap:44px}
@@ -135,7 +132,6 @@
   .sec-title{font-family:"Unbounded";font-weight:700;font-size:clamp(28px,4.5vw,46px);letter-spacing:-0.01em}
   .sec-note{color:var(--muted);max-width:340px;font-size:15px}
 
-  /* reveal on scroll */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease, transform .7s ease}
   .reveal.in{opacity:1;transform:none}
 
@@ -154,8 +150,9 @@
     grid-column:span 4;position:relative;border:1px solid var(--line);border-radius:var(--r);
     padding:26px;background:linear-gradient(165deg,var(--panel),var(--bg));overflow:hidden;
     transition:transform .25s ease, border-color .25s ease;min-height:220px;
-    display:flex;flex-direction:column;
+    display:flex;flex-direction:column;cursor:pointer;text-align:left;
   }
+  .card:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
   .card.feat{grid-column:span 6;min-height:280px}
   .card::before{
     content:"";position:absolute;inset:0;opacity:0;transition:opacity .3s;
@@ -171,13 +168,65 @@
   .card h3{font-family:"Unbounded";font-weight:600;font-size:clamp(19px,2.4vw,26px);margin:18px 0 8px;line-height:1.1;position:relative}
   .card .studio{font-family:"Space Mono",monospace;font-size:12px;color:var(--muted);margin-bottom:12px;position:relative}
   .card p{color:#C7C0D8;font-size:14.5px;position:relative;flex:1}
-  .card .play{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--ink);position:relative}
-  .card .play .arrow{transition:transform .2s}
-  .card:hover .play .arrow{transform:translateX(5px)}
-  .card .play.disabled{color:var(--muted);cursor:default}
+  .card .open-hint{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--ink);position:relative}
+  .card .open-hint .arrow{transition:transform .2s}
+  .card:hover .open-hint .arrow{transform:translateX(5px)}
   .feat h3{font-size:clamp(24px,3vw,34px)}
   .card.hide{display:none}
+  .card .meta-row{display:flex;align-items:center;gap:10px;position:relative}
+  .card .count{font-family:"Space Mono",monospace;font-size:11px;color:var(--muted)}
   .ip-badge{position:absolute;top:22px;right:22px;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.1em;color:var(--gold);border:1px solid rgba(255,197,82,0.4);padding:4px 9px;border-radius:6px}
+
+  /* ---------- modal / overlay ---------- */
+  .overlay{
+    position:fixed;inset:0;z-index:100;display:none;
+    align-items:flex-start;justify-content:center;
+    background:rgba(6,4,14,0.72);backdrop-filter:blur(8px);
+    padding:40px 20px;overflow-y:auto;
+  }
+  .overlay.open{display:flex}
+  .modal{
+    width:100%;max-width:760px;background:linear-gradient(180deg,var(--panel-2),var(--panel));
+    border:1px solid var(--line);border-radius:var(--r);position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6);
+    animation:pop .35s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(24px) scale(.98)}to{opacity:1;transform:none}}
+  .modal-head{padding:34px 34px 22px;border-bottom:1px solid var(--line);position:relative}
+  .modal .genre{
+    display:inline-block;font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.12em;
+    text-transform:uppercase;padding:5px 11px;border-radius:999px;
+    color:var(--violet);border:1px solid rgba(157,107,255,0.4);background:rgba(157,107,255,0.08);
+  }
+  .modal .ip-tag{margin-left:8px;font-family:"Space Mono",monospace;font-size:10px;letter-spacing:0.1em;color:var(--gold);border:1px solid rgba(255,197,82,0.4);padding:4px 9px;border-radius:6px}
+  .modal h2{font-family:"Unbounded";font-weight:700;font-size:clamp(24px,4vw,36px);margin:16px 0 6px;line-height:1.05}
+  .modal .studio{font-family:"Space Mono",monospace;font-size:13px;color:var(--muted)}
+  .modal-close{
+    position:absolute;top:22px;right:22px;width:40px;height:40px;border-radius:12px;
+    background:var(--panel);border:1px solid var(--line);color:var(--ink);font-size:20px;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;
+  }
+  .modal-close:hover{border-color:var(--pink);transform:rotate(90deg)}
+  .modal-body{padding:26px 34px 34px}
+  .modal-body .desc{color:#D9D3E6;font-size:16px;margin-bottom:26px;overflow-wrap:break-word;word-break:break-word}
+  .block-label{font-family:"Space Mono",monospace;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+  .gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:28px}
+  .gallery img{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:12px;border:1px solid var(--line);display:block}
+  .gallery img.solo{grid-column:span 2}
+  .videos{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+  .video-embed{position:relative;display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);cursor:pointer;aspect-ratio:16/9}
+  .video-embed img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+  .video-embed:hover img{transform:scale(1.04)}
+  .video-embed .play-btn{
+    position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;
+    background:var(--grad);display:flex;align-items:center;justify-content:center;
+    color:#12091f;font-size:22px;box-shadow:0 8px 30px rgba(157,107,255,0.5);
+  }
+  .video-embed .vlabel{position:absolute;left:14px;bottom:12px;background:rgba(6,4,14,0.7);padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600}
+  .video-embed iframe{width:100%;height:100%;border:0;display:block;aspect-ratio:16/9}
+  .modal-links{display:flex;flex-wrap:wrap;gap:12px}
+  .modal-links .btn{font-size:14px;padding:12px 20px}
+  .empty-note{color:var(--muted);font-size:14px;font-style:italic}
 
   /* ---------- experience ---------- */
   .timeline{position:relative;padding-left:8px}
@@ -236,12 +285,15 @@
   }
   @media(max-width:640px){
     nav a:not(.status){display:none}
-    .menu-btn{display:none}
     .card,.card.feat{grid-column:span 12}
     .job{grid-template-columns:1fr;gap:10px}
     .two-col{grid-template-columns:1fr}
     .status{display:none}
     .hero{padding:56px 0 40px}
+    .gallery{grid-template-columns:1fr}
+    .gallery img.solo{grid-column:span 1}
+    .modal-head,.modal-body{padding-left:22px;padding-right:22px}
+    .overlay{padding:16px}
   }
   @media (prefers-reduced-motion: reduce){
     *{animation:none!important;transition:none!important}
@@ -306,7 +358,7 @@
         <div class="eyebrow">Selected work</div>
         <h2 class="sec-title">Projects across genres</h2>
       </div>
-      <p class="sec-note">Filter by type. Range is the point — the same design instincts port from a slot reel to a VR training loop.</p>
+      <p class="sec-note">Tap any tile for the full breakdown — description, screenshots and video. Range is the point.</p>
     </div>
 
     <div class="filters reveal" id="filters"></div>
@@ -474,44 +526,122 @@
   </div>
 </footer>
 
+<!-- OVERLAY (populated by JS) -->
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal" id="modal"></div>
+</div>
+
 <script>
-  /* ---------- Project data ----------
-     To add a real link, fill in the "url" field.
-     Leave url empty ("") and the card shows a non-clickable label. */
+  /* =========================================================
+     PROJECT DATA — this is the only part you edit to add media.
+
+     For each project:
+       description : the full write-up shown in the overlay
+       images      : list of image paths, e.g. ["images/oz-1.png","images/oz-2.png"]
+                     leave [] and a branded placeholder is shown automatically
+       videos      : list of YouTube videos, e.g.
+                     [{ label:"Gameplay trailer", id:"dQw4w9WgXcQ" }]
+                     the "id" is the code after  watch?v=  in a YouTube URL.
+                     the thumbnail + click-to-play are generated for you.
+       links       : external buttons, e.g. [{ label:"Play game", url:"https://..." }]
+                     leave url:"" and the button is hidden.
+     ========================================================= */
   const projects = [
-    { title:"Wizard of Oz Slots", type:"Slots", studio:"Zynga", ip:true,
+    {
+      title:"Wizard of Oz Slots", type:"Slots", studio:"Zynga", ip:true,
       blurb:"Designed multiple slot machines and unique mechanics for the official Wizard of Oz IP.",
-      cta:"Play game", url:"" },
-    { title:"Willy Wonka Vegas Casino Slots", type:"Slots", studio:"Zynga", ip:true,
+      description:"Designed multiple slot machines and unique game mechanics for Zynga's official Wizard of Oz IP. Work spanned reel math and feature design through documentation and live implementation, always focused on monetization, retention, and keeping the fantasy of the IP alive across every spin.",
+      images:[],
+      videos:[ /* { label:"Gameplay", id:"YOUR_YOUTUBE_ID" } */ ],
+      links:[ { label:"Play game", url:"" } ]
+    },
+    {
+      title:"Willy Wonka Vegas Casino Slots", type:"Slots", studio:"Zynga", ip:true,
       blurb:"Contributed features focused on monetization, engagement and player retention.",
-      cta:"Play game", url:"" },
-    { title:"Room Flip™: Design Dream Home", type:"Casual", studio:"Nukebox Studio",
-      blurb:"Designed level content and features for a match-3 game with a builder / home-decor meta.",
-      cta:"Play game", url:"https://play.google.com/store/apps/details?id=com.roomflip.home.design.games.decor.decorate.makeover.mansion.style.covet.match3.dressup.fashion&hl=en_IN&gl=US&pli=1" },
-    { title:"Duck on the Run", type:"Educational", studio:"Juego Studio",
+      description:"Contributed multiple features across this Vegas-style casino title, each targeting monetization, engagement and player retention. Involved end-to-end from ideation and market research through to implementation alongside cross-functional teams.",
+      images:[],
+      videos:[],
+      links:[ { label:"Play game", url:"" } ]
+    },
+    {
+      title:"Room Flip™: Design Dream Home", type:"Casual", studio:"Nukebox Studio", ip:false,
+      blurb:"Level content and features for a match-3 game with a builder / home-decor meta.",
+      description:"Designed level content and features for a match-3 puzzle game wrapped in a builder and home-decor meta layer. Also built and optimized LiveOps event content that measurably improved player retention.",
+      images:[],
+      videos:[],
+      links:[ { label:"Play game", url:"" } ]
+    },
+    {
+      title:"Duck on the Run", type:"Educational", studio:"Juego Studio", ip:false,
       blurb:"Gamified math learning for kids in a fun, engaging format.",
-      cta:"", url:"" },
-    { title:"Aircraft Deicing Training", type:"VR", studio:"Juego Studio",
+      description:"Gamified math learning for kids, turning practice drills into a fun, fast-paced format that keeps young players engaged while they learn.",
+      images:[],
+      videos:[],
+      links:[]
+    },
+    {
+      title:"Aircraft Deicing Training", type:"VR", studio:"Juego Studio", ip:false,
       blurb:"Immersive VR training for aircraft ground staff on deicing procedures.",
-      cta:"", url:"" },
-    { title:"Strongwatch", type:"VR", studio:"Juego Studio",
-      blurb:"Simulated an American defense surveillance system in VR to train operators.",
-      cta:"More info", url:"" },
-    { title:"AR Pro Pong", type:"AR", studio:"Juego Studio",
+      description:"Created an immersive VR training experience teaching aircraft ground staff correct deicing procedures, translating a real-world, safety-critical process into a repeatable, hands-on simulation.",
+      images:[],
+      videos:[],
+      links:[]
+    },
+    {
+      title:"Strongwatch", type:"VR", studio:"Juego Studio", ip:false,
+      blurb:"VR simulation of a defense surveillance system for operator training.",
+      description:"Simulated an American defense surveillance system in VR to train operators. Designed the interaction model and training loop so operators could learn the system safely before touching live equipment.",
+      images:[],
+      videos:[],
+      links:[ { label:"More info", url:"" } ]
+    },
+    {
+      title:"AR Pro Pong", type:"AR", studio:"Juego Studio", ip:false,
       blurb:"An AR beer-pong game built on mobile surface tracking.",
-      cta:"Watch", url:"" },
-    { title:"Kalutai Card Game", type:"Card", studio:"Personal / Studio",
-      blurb:"Mobile take on the classic Donkey card game with online multiplayer and smart AI bots.",
-      cta:"", url:"" },
-    { title:"Story of Ancients", type:"RTS", studio:"Juego Studio",
-      blurb:"Multiplayer 4X real-time strategy: base-building, alliances and territory wars.",
-      cta:"More info", url:"" },
+      description:"Designed an AR beer-pong game using mobile-based surface tracking, mapping a physical party game onto real tabletops through the phone camera.",
+      images:[],
+      videos:[],
+      links:[ { label:"Watch", url:"" } ]
+    },
+    {
+      title:"Kalutai Card Game", type:"Card", studio:"Personal / Studio", ip:false,
+      blurb:"Mobile take on the classic Donkey card game with online multiplayer.",
+      description:"A mobile version of the classic 'Donkey' card game, featuring online multiplayer and smart AI bots so players always have an opponent.",
+      images:[],
+      videos:[],
+      links:[]
+    },
+    {
+      title:"Story of Ancients", type:"RTS", studio:"Juego Studio", ip:false,
+      blurb:"Multiplayer 4X RTS with base-building, alliances and territory wars.",
+      description:"A multiplayer 4X real-time strategy game built around base-building, alliances and territory wars — designing the systems and economy that keep long-form strategy sessions balanced and tense.",
+      images:[],
+      videos:[],
+      links:[]
+    }
   ];
   const featured = new Set(["Wizard of Oz Slots","Willy Wonka Vegas Casino Slots"]);
 
+  /* branded gradient placeholder so the gallery looks complete before real screenshots exist */
+  function placeholder(title){
+    const t = title.replace(/[<&]/g,"").slice(0,26);
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='640' height='400'>
+      <defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='%239D6BFF'/><stop offset='1' stop-color='%23FF5D8F'/></linearGradient></defs>
+      <rect width='640' height='400' fill='%231C1638'/>
+      <rect width='640' height='400' fill='url(%23g)' opacity='0.18'/>
+      <text x='50%25' y='52%25' fill='%23F5F1E8' opacity='0.75' font-family='monospace' font-size='22' text-anchor='middle'>${t}</text>
+      <text x='50%25' y='63%25' fill='%23928BB0' font-family='monospace' font-size='12' text-anchor='middle'>screenshot placeholder</text>
+    </svg>`;
+    return "data:image/svg+xml," + encodeURIComponent(svg).replace(/'/g,"%27");
+  }
+
   const grid = document.getElementById("grid");
   const filtersEl = document.getElementById("filters");
+  const overlay = document.getElementById("overlay");
+  const modal = document.getElementById("modal");
   const types = ["All", ...Array.from(new Set(projects.map(p=>p.type)))];
+  let lastFocused = null;
 
   function renderChips(active){
     filtersEl.innerHTML = types.map(t=>
@@ -520,24 +650,104 @@
       c.addEventListener("click", ()=>{ renderChips(c.dataset.type); renderGrid(c.dataset.type); });
     });
   }
+
   function renderGrid(filter){
-    grid.innerHTML = projects.map(p=>{
+    grid.innerHTML = projects.map((p,i)=>{
       const show = (filter==="All"||filter===p.type);
       const feat = featured.has(p.title) ? " feat" : "";
-      const play = p.url
-        ? `<a class="play" href="${p.url}" target="_blank" rel="noopener">${p.cta} <span class="arrow">→</span></a>`
-        : (p.cta ? `<span class="play disabled">${p.cta} <span class="arrow">→</span></span>` : "");
       const ip = p.ip ? `<span class="ip-badge">OFFICIAL IP</span>` : "";
-      return `<article class="card${feat}${show?'':' hide'}">
+      const mediaCount = (p.images.length + p.videos.length);
+      const count = mediaCount ? `<span class="count">${mediaCount} media</span>` : "";
+      return `<article class="card${feat}${show?'':' hide'}" role="button" tabindex="0"
+                data-index="${i}" aria-label="Open details for ${p.title}">
         ${ip}
-        <span class="genre">${p.type}</span>
+        <div class="meta-row"><span class="genre">${p.type}</span>${count}</div>
         <h3>${p.title}</h3>
         <div class="studio">${p.studio}</div>
         <p>${p.blurb}</p>
-        ${play}
+        <span class="open-hint">View details <span class="arrow">→</span></span>
       </article>`;
     }).join("");
+
+    grid.querySelectorAll(".card").forEach(card=>{
+      card.addEventListener("click", ()=>openModal(+card.dataset.index, card));
+      card.addEventListener("keydown", (e)=>{
+        if(e.key==="Enter"||e.key===" "){ e.preventDefault(); openModal(+card.dataset.index, card); }
+      });
+    });
   }
+
+  function openModal(index, trigger){
+    const p = projects[index];
+    lastFocused = trigger || document.activeElement;
+
+    const imgs = p.images.length ? p.images : [placeholder(p.title)];
+    const solo = imgs.length===1 ? " solo" : "";
+    const galleryHTML = `
+      <p class="block-label">Screens</p>
+      <div class="gallery">
+        ${imgs.map(src=>`<img class="${solo}" src="${src}" alt="${p.title} screenshot" loading="lazy" />`).join("")}
+      </div>`;
+
+    const videosHTML = p.videos.length ? `
+      <p class="block-label">Video</p>
+      <div class="videos">
+        ${p.videos.map(v=>`
+          <div class="video-embed" data-id="${v.id}" role="button" tabindex="0" aria-label="Play ${v.label}">
+            <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.label} thumbnail" loading="lazy" />
+            <span class="play-btn">▶</span>
+            <span class="vlabel">${v.label}</span>
+          </div>`).join("")}
+      </div>` : "";
+
+    const activeLinks = (p.links||[]).filter(l=>l.url);
+    const linksHTML = activeLinks.length ? `
+      <div class="modal-links">
+        ${activeLinks.map(l=>`<a class="btn btn-primary" href="${l.url}" target="_blank" rel="noopener">${l.label} ↗</a>`).join("")}
+      </div>` : `<p class="empty-note">Playable link coming soon.</p>`;
+
+    modal.innerHTML = `
+      <div class="modal-head">
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        <span class="genre">${p.type}</span>${p.ip?'<span class="ip-tag">OFFICIAL IP</span>':''}
+        <h2 id="modalTitle">${p.title}</h2>
+        <div class="studio">${p.studio}</div>
+      </div>
+      <div class="modal-body">
+        <p class="desc">${p.description}</p>
+        ${galleryHTML}
+        ${videosHTML}
+        ${linksHTML}
+      </div>`;
+
+    // click-to-play videos (loads the iframe only on interaction)
+    modal.querySelectorAll(".video-embed").forEach(el=>{
+      const play = ()=>{
+        el.outerHTML = `<div class="video-embed"><iframe
+          src="https://www.youtube-nocookie.com/embed/${el.dataset.id}?autoplay=1"
+          title="Gameplay video" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`;
+      };
+      el.addEventListener("click", play);
+      el.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){e.preventDefault();play();} });
+    });
+
+    overlay.classList.add("open");
+    document.body.classList.add("locked");
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("modalClose").focus();
+  }
+
+  function closeModal(){
+    overlay.classList.remove("open");
+    document.body.classList.remove("locked");
+    modal.innerHTML = "";
+    if(lastFocused) lastFocused.focus();
+  }
+
+  // close on backdrop click + Escape
+  overlay.addEventListener("click", e=>{ if(e.target===overlay) closeModal(); });
+  document.addEventListener("keydown", e=>{ if(e.key==="Escape" && overlay.classList.contains("open")) closeModal(); });
+
   renderChips("All");
   renderGrid("All");
 
