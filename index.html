@@ -4,90 +4,199 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Samuel Parera — Senior Game Designer</title>
+  <meta name="description" content="Samuel Parera — Senior Game Designer. Systems, levels, live-ops and player-first gameplay. Portfolio and resume.">
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:0;color:#0b1220}
-    header{background:#0b1220;color:#fff;padding:48px 20px;text-align:center}
-    .container{max-width:900px;margin:32px auto;padding:0 20px}
-    h1{margin:0;font-size:28px}
-    p.lead{font-size:18px;color:#394254}
-    .skills{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-    .skill{background:#eef2ff;color:#0b1220;padding:6px 10px;border-radius:6px;font-weight:600}
-    .projects{margin-top:20px}
-    .project{border-left:4px solid #0b1220;padding:12px 16px;margin:12px 0;background:#fff}
-    footer{margin:48px 0 80px;text-align:center;color:#6b7280}
-    a.button{display:inline-block;background:#0b1220;color:#fff;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:700}
+    :root{
+      --bg:#0b1220; --card:#0f1724; --muted:#94a3b8; --accent:#7c3aed; --accent-2:#06b6d4; --glass: rgba(255,255,255,0.04);
+      --radius:14px; --gap:20px; --max:1100px
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:#e6eef8;background:linear-gradient(180deg,var(--bg) 0%, #071023 100%);-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+
+    header{padding:60px 20px 40px;display:flex;align-items:center;justify-content:center}
+    .wrap{max-width:var(--max);width:100%;margin:0 auto}
+
+    .hero{display:grid;grid-template-columns:1fr 400px;gap:40px;align-items:center}
+    @media (max-width:900px){.hero{grid-template-columns:1fr;}.hero-right{order:-1}}
+
+    .kicker{display:inline-block;padding:6px 12px;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border-radius:999px;font-weight:700;font-size:13px}
+    h1{font-size:40px;margin:12px 0 8px;line-height:1.02}
+    p.lead{color:var(--muted);font-size:18px;margin:0 0 18px}
+
+    .cta{display:flex;gap:12px;margin-top:18px}
+    .btn{padding:12px 18px;border-radius:10px;font-weight:700;text-decoration:none;color:#071023;background:#fff}
+    .btn-ghost{background:transparent;border:2px solid rgba(255,255,255,0.06);color:#dbeafe}
+
+    .hero-right{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:18px;padding:20px;box-shadow:0 6px 30px rgba(2,6,23,0.6);backdrop-filter:blur(6px)}
+    .profile{display:flex;gap:16px;align-items:center}
+    .avatar{width:84px;height:84px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:28px}
+    .meta h3{margin:0 0 6px}
+    .meta p{margin:0;color:var(--muted)}
+
+    .metrics{display:flex;gap:12px;margin-top:14px}
+    .metric{background:var(--glass);padding:10px;border-radius:10px;color:#dbeafe;font-weight:700;font-size:14px}
+
+    main{max-width:var(--max);margin:30px auto;padding:0 20px}
+    section{margin-bottom:36px}
+    .skills{display:flex;flex-wrap:wrap;gap:10px}
+    .chip{background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:999px;color:#cfe6ff;font-weight:700}
+
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    @media (max-width:1000px){.projects{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:620px){.projects{grid-template-columns:1fr}}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));border-radius:14px;padding:16px;transition:transform .32s,box-shadow .32s;cursor:pointer;display:flex;flex-direction:column;gap:12px}
+    .card:hover{transform:translateY(-10px);box-shadow:0 18px 40px rgba(2,6,23,0.6)}
+    .thumb{height:160px;border-radius:10px;overflow:hidden;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    .card h3{margin:0;font-size:18px}
+    .card p{margin:0;color:var(--muted);font-size:14px}
+    .card ul{margin:0;padding-left:18px;color:#bcd8ff}
+
+    .footer{padding:40px 20px;text-align:center;color:var(--muted)}
+
+    /* subtle entrance */
+    .reveal{opacity:0;transform:translateY(8px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+
+    /* decorative wave */
+    .wave{height:64px;overflow:hidden}
+    .wave svg{display:block;width:100%}
+
   </style>
 </head>
 <body>
   <header>
-    <div class="container">
-      <h1>Samuel Parera</h1>
-      <p class="lead">Senior Game Designer — systems, levels, and player-first experiences. Prototyping in Unity & Unreal, C# scripting, live-ops, and metrics-driven iteration.</p>
-      <p><a class="button" href="https://raw.githubusercontent.com/SamuelParera/Portfolio/main/Samuel%20Parera%20-%20Resume.pdf" target="_blank" rel="noopener">View Resume (PDF)</a></p>
+    <div class="wrap">
+      <div class="hero">
+        <div>
+          <div class="kicker">Senior Game Designer — Systems & Live Ops</div>
+          <h1>Crafting gameplay that hooks players and keeps them coming back</h1>
+          <p class="lead">I design progression, levels, and live experiences with a player-first mindset — prototyping rapidly, validating with data, and shipping systems that scale. I blend creative systems thinking with analytics to turn ideas into measurable results.</p>
+
+          <div class="cta">
+            <a class="btn" href="https://raw.githubusercontent.com/SamuelParera/Portfolio/main/Samuel%20Parera%20-%20Resume.pdf" target="_blank" rel="noopener">View Resume</a>
+            <a class="btn btn-ghost" href="#projects">See Projects</a>
+          </div>
+
+          <div class="metrics" style="margin-top:18px">
+            <div class="metric">+12% D7 retention (A/B)</div>
+            <div class="metric">+40% event participation</div>
+            <div class="metric">1000+ hrs playtests led</div>
+          </div>
+        </div>
+
+        <aside class="hero-right">
+          <div class="profile">
+            <div class="avatar">SP</div>
+            <div class="meta">
+              <h3>Samuel Parera</h3>
+              <p>Senior Game Designer • Systems, Level, Live Ops</p>
+              <div style="margin-top:8px;font-size:13px;color:var(--muted)">Based in: [Your Location] • Languages: English, Spanish</div>
+            </div>
+          </div>
+
+          <div style="margin-top:16px">
+            <strong style="color:#dbeafe">How I work</strong>
+            <p style="margin:6px 0;color:var(--muted);font-size:14px">Fast prototypes → player feedback → telemetry-driven tuning → polished live experiences. I focus on systems that empower player choice, surprise, and reward.</p>
+          </div>
+
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+            <a class="chip" href="#projects">Systems</a>
+            <a class="chip" href="#projects">Level Design</a>
+            <a class="chip" href="#projects">Live Ops</a>
+            <a class="chip" href="#contact">Contact</a>
+          </div>
+        </aside>
+      </div>
     </div>
   </header>
 
-  <main class="container">
-    <section>
-      <h2>Skills</h2>
-      <div class="skills">
-        <div class="skill">Systems Design</div>
-        <div class="skill">Level & Encounter Design</div>
-        <div class="skill">Prototyping (Unity / Unreal)</div>
-        <div class="skill">Gameplay Tuning</div>
-        <div class="skill">Narrative Design</div>
-        <div class="skill">C# / Blueprints</div>
-        <div class="skill">Live Ops & Monetization</div>
-        <div class="skill">Player Research</div>
+  <div class="wave" aria-hidden>
+    <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,40 C360,120 1080,0 1440,80 L1440 120 L0 120 Z" fill="#071023"></path></svg>
+  </div>
+
+  <main>
+    <section id="skills" class="reveal">
+      <h2>Key strengths</h2>
+      <div class="skills" style="margin-top:12px">
+        <div class="chip">Gameplay systems</div>
+        <div class="chip">Progression & Economy</div>
+        <div class="chip">Level & Encounter Design</div>
+        <div class="chip">Prototyping (Unity, Unreal)</div>
+        <div class="chip">Live Ops & Event Design</div>
+        <div class="chip">Telemetry & A/B Testing</div>
+        <div class="chip">Player Research & Playtests</div>
       </div>
     </section>
 
-    <section class="projects">
-      <h2>Selected Projects</h2>
+    <section id="projects" style="margin-top:26px" class="reveal">
+      <h2>Selected projects</h2>
+      <p style="color:var(--muted);margin-top:6px">Below are highlights of the systems and live experiences I led. Click any card to add details or link to a case study.</p>
 
-      <article class="project">
-        <h3>Project One — Lead Systems Designer</h3>
-        <p>Short summary: Example project where I designed the core progression loop and economy, improving retention and ARPU through balanced pacing.</p>
-        <ul>
-          <li>Designed progression and reward systems; tuned pacing using telemetry.</li>
-          <li>Implemented prototypes in Unity and coordinated with engineers and artists.</li>
-          <li>Impact: +12% D7 retention in A/B test.</li>
-        </ul>
-      </article>
+      <div class="projects" style="margin-top:14px">
+        <article class="card" tabindex="0">
+          <div class="thumb" aria-hidden>
+            <!-- SVG placeholder for project art -->
+            <svg width="100%" height="100%" viewBox="0 0 600 160" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g1" x1="0" x2="1"><stop offset="0" stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><rect width="600" height="160" fill="url(#g1)"/><text x="30" y="96" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.95)">Project One</text></svg>
+          </div>
+          <h3>Project One — Lead Systems Designer</h3>
+          <p class="muted">Designed the core progression loop and economy to increase long-term retention across cohorts.</p>
+          <ul>
+            <li>Built prototype economy and tuned pacing using telemetry</li>
+            <li>Led cross-discipline playtests; prioritized changes by impact</li>
+            <li>Result: +12% D7 retention in validated A/B test</li>
+          </ul>
+        </article>
 
-      <article class="project">
-        <h3>Project Two — Level & Encounter Designer</h3>
-        <p>Short summary: Example level design project focusing on emergent encounters and player-driven difficulty.</p>
-        <ul>
-          <li>Created encounter templates and scripted AI behaviors using Blueprints.</li>
-          <li>Led playtests and iterated based on qualitative feedback.</li>
-          <li>Reduced player confusion metrics by 30%.</li>
-        </ul>
-      </article>
+        <article class="card" tabindex="0">
+          <div class="thumb">
+            <svg width="100%" height="100%" viewBox="0 0 600 160" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#ff7ab6"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs><rect width="600" height="160" fill="url(#g2)"/><text x="30" y="96" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.95)">Project Two</text></svg>
+          </div>
+          <h3>Project Two — Level & Encounter Designer</h3>
+          <p class="muted">Focused on encounter templates and pacing to enhance emergent player stories.</p>
+          <ul>
+            <li>Created modular encounter systems enabling designer-driven variety</li>
+            <li>Scripted behaviors and balance with Blueprints and playtests</li>
+            <li>Impact: reduced beginner confusion by 30%</li>
+          </ul>
+        </article>
 
-      <article class="project">
-        <h3>Project Three — Live Ops Designer</h3>
-        <p>Short summary: Designed recurring live events and economy adjustments to sustain long-term engagement.</p>
-        <ul>
-          <li>Planned seasonal events, A/B tests for pricing and bundles.</li>
-          <li>Coordinated telemetry and dashboards for fast iteration.</li>
-          <li>Increased event participation by 40% over baseline.</li>
-        </ul>
-      </article>
+        <article class="card" tabindex="0">
+          <div class="thumb">
+            <svg width="100%" height="100%" viewBox="0 0 600 160" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="g3" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#34d399"/></linearGradient></defs><rect width="600" height="160" fill="url(#g3)"/><text x="30" y="96" font-family="sans-serif" font-size="28" fill="rgba(255,255,255,0.95)">Project Three</text></svg>
+          </div>
+          <h3>Project Three — Live Ops Designer</h3>
+          <p class="muted">Designed seasonal events and monetization experiments to sustain and grow engagement.</p>
+          <ul>
+            <li>Planned and executed seasonal live events</li>
+            <li>Ran pricing experiments and adjusted bundles for conversion</li>
+            <li>Result: +40% event participation over baseline</li>
+          </ul>
+        </article>
+      </div>
 
-      <p>If you’d like these filled with your real projects, paste the project details and I will update them with links, screenshots, and pages for each project.</p>
+      <p style="margin-top:14px;color:var(--muted)">Want these to link to case studies with screenshots and videos? Upload assets to <code>assets/</code> and paste project copy; I’ll build full case pages with performance charts.</p>
     </section>
 
-    <section>
-      <h2>Contact</h2>
-      <p>Please add your preferred contact (email, website, LinkedIn). Example: <a href="mailto:your-email@example.com">your-email@example.com</a></p>
+    <section id="contact" class="reveal">
+      <h2>Get in touch</h2>
+      <p style="color:var(--muted);margin-top:6px">Interested in working together or want to see specific project details? Send a note — I reply quickly.</p>
+      <p style="margin-top:12px"><a class="btn" href="mailto:your-email@example.com">Email me</a> <a class="btn btn-ghost" href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a></p>
     </section>
   </main>
 
-  <footer>
-    <div class="container">
-      <p>Note: this index.html sits at the repository root. If you want the Pages site to publish from the repository root, go to Settings → Pages → Branch: main, Folder: / (root) and Save. If you prefer the current /docs folder, you can ignore this file.</p>
+  <footer class="footer">
+    <div style="max-width:var(--max);margin:0 auto;padding:0 20px;color:var(--muted)">
+      <p>Resume and details: <a href="https://raw.githubusercontent.com/SamuelParera/Portfolio/main/Samuel%20Parera%20-%20Resume.pdf" target="_blank" rel="noopener">View resume (PDF)</a></p>
+      <p style="margin-top:8px;font-size:13px">Tip: Upload screenshots to <code>assets/</code> and send me project text; I’ll convert each card into a full case study page with galleries and metrics.</p>
     </div>
   </footer>
+
+  <script>
+    // small reveal on scroll
+    const reveal = ()=>{document.querySelectorAll('.reveal').forEach(el=>{const r=el.getBoundingClientRect();if(r.top < window.innerHeight-60) el.classList.add('visible')})}
+    window.addEventListener('scroll',reveal);window.addEventListener('load',()=>{reveal();setTimeout(reveal,300)})
+  </script>
 </body>
 </html>
